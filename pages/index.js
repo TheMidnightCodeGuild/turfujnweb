@@ -90,52 +90,60 @@ const LoginPage = () => {
 
   if (loggedInUser && agent) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold">Welcome, {loggedInUser.name}!</h2>
-          
+      <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">
+        <div className="container mx-auto px-4 py-8 md:py-12">
+          <div className="max-w-2xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+            <div className="p-6 md:p-8">
+              <div className="text-center mb-8">
+                <h2 className="text-3xl md:text-4xl font-bold text-green-800">
+                  Welcome, {loggedInUser.name}!
+                </h2>
+              </div>
 
-            <ViewBookings turf={turf}/>
+              <div className="bg-green-50 rounded-lg p-4 mb-8">
+                <ViewBookings turf={turf}/>
+              </div>
 
+              <button
+                type="button"
+                onClick={logout}
+                className="w-full py-3 px-6 text-white bg-green-600 hover:bg-green-700 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              >
+                Logout
+              </button>
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={logout}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Logout
-          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center px-4">
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold text-center text-green-800">
             Hi Admin!
-          </h2>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+          </h1>
+          <h2 className="text-2xl font-semibold text-center text-green-700">
             Sign in to your account
           </h2>
           {error && (
-            <p className="mt-2 text-center text-sm text-red-600">
+            <p className="text-center text-red-600 bg-red-50 rounded-lg p-3">
               {error}
             </p>
           )}
         </div>
-        <form className="mt-8 space-y-6">
-          <div className="rounded-md shadow-sm -space-y-px">
+
+        <form className="space-y-6">
+          <div className="space-y-4">
             <div>
               <input
                 type="email"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full px-4 py-3 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition duration-200"
               />
             </div>
             <div>
@@ -144,20 +152,18 @@ const LoginPage = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full px-4 py-3 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition duration-200"
               />
             </div>
           </div>
 
-          <div>
-            <button
-              type="button"
-              onClick={() => login(email, password)}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign in
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={() => login(email, password)}
+            className="w-full py-3 px-6 text-white bg-green-600 hover:bg-green-700 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          >
+            Sign in
+          </button>
         </form>
       </div>
     </div>

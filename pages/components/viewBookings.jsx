@@ -92,46 +92,80 @@ const ViewBookings = ({ turf }) => {
     fetchBookings();
   }, [turf]);
 
-  if (loading) return <div className="text-center py-4">Loading bookings...</div>;
-  if (error) return <div className="text-red-500 text-center py-4">Error: {error}</div>;
+  if (loading) return (
+    <div className="flex justify-center items-center py-8">
+      <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+    </div>
+  );
+  
+  if (error) return (
+    <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-center my-4">
+      Error: {error}
+    </div>
+  );
 
   return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Bookings</h2>
-      {bookings.length === 0 ? (
-        <p className="text-gray-500 text-center">No bookings found for this turf.</p>
-      ) : (
-        <div className="grid gap-4">
-          {bookings.map((booking) => (
-            <div key={booking.$id} className="border p-4 rounded-lg shadow hover:shadow-md transition-shadow">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <p className="font-semibold text-gray-700">Booking ID:</p>
-                  <p className="text-gray-600">{booking.$id}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-700">User Name:</p>
-                  <p className="text-gray-600">{booking.userId.name || 'Unknown User'}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-700">Start Time:</p>
-                  <p className="text-gray-600">{new Date(booking.startTime).toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-700">End Time:</p>
-                  <p className="text-gray-600">{new Date(booking.endTime).toLocaleString()}</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-700">Status:</p>
-                  <p className={`font-medium ${booking.status === 'confirmed' ? 'text-green-600' : 'text-yellow-600'}`}>
-                    {booking.status || 'pending'}
-                  </p>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="px-4 py-5 sm:px-6 bg-green-50 border-b border-green-100">
+          <h2 className="text-2xl font-bold text-green-800">Bookings Overview</h2>
+        </div>
+
+        {bookings.length === 0 ? (
+          <div className="p-8 text-center">
+            <p className="text-gray-500 text-lg">No bookings found for this turf.</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-green-100">
+            {bookings.map((booking) => (
+              <div key={booking.$id} className="p-6 hover:bg-green-50 transition-colors duration-150">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-green-600">Booking Reference</p>
+                    <p className="text-gray-900 font-mono">{booking.$id}</p>
+                  </div>
+                  
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-green-600">Customer</p>
+                    <p className="text-gray-900">{booking.userId.name || 'Unknown User'}</p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-green-600">Status</p>
+                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${
+                      booking.status === 'confirmed' 
+                        ? 'bg-green-100 text-green-800' 
+                        : 'bg-yellow-100 text-yellow-800'
+                    }`}>
+                      {booking.status || 'pending'}
+                    </span>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-green-600">Start Time</p>
+                    <p className="text-gray-900">
+                      {new Date(booking.startTime).toLocaleString('en-US', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                      })}
+                    </p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <p className="text-sm font-medium text-green-600">End Time</p>
+                    <p className="text-gray-900">
+                      {new Date(booking.endTime).toLocaleString('en-US', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                      })}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
