@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { account, databases } from "../appwrite";
 import CreateTurf from "./components/createTurf";
 import UpdateTurf from "./components/updateTurf";
+import ViewBookings from "./components/viewBookings";
 
 const LoginPage = () => {
   const [loggedInUser, setLoggedInUser] = useState(null);
@@ -93,12 +94,9 @@ const LoginPage = () => {
         <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
           <div className="text-center">
             <h2 className="text-2xl font-bold">Welcome, {loggedInUser.name}!</h2>
-            {/* {turf ? (
-              <UpdateTurf turf={turf} />
-            ) : (
-              <CreateTurf agent={agent} />
-            )} */}
-                          <UpdateTurf turf={turf} />
+          
+
+            <ViewBookings turf={turf}/>
 
           </div>
           <button
