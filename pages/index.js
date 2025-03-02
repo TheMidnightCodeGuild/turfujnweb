@@ -1,11 +1,13 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { account, databases } from "../appwrite";
-import CreateTurf from "./components/createTurf";
+import { useRouter } from 'next/router';
+
 import UpdateTurf from "./components/updateTurf";
 import ViewBookings from "./components/viewBookings";
 
 const LoginPage = () => {
+  const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [agent, setAgent] = useState(null);
   const [turf, setTurf] = useState(null);
@@ -45,8 +47,16 @@ const LoginPage = () => {
 
   const login = async (email, password) => {
     try {
-      const session = await account.createEmailPasswordSession(email, password);
-      const user = await account.get();
+      let user;
+      
+      try {
+        // First try to get existing session
+        user = await account.get();
+      } catch {
+        // If no session exists, create new one
+        await account.createEmailPasswordSession(email, password);
+        user = await account.get();
+      }
       
       // Check if user has admin label
       if (!user.labels || !user.labels.includes('admin')) {
@@ -74,6 +84,7 @@ const LoginPage = () => {
       // Fetch turf data after setting agent
       await fetchTurfData(userAgent);
       setError("");
+      router.push('/components/Choose');
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials.");
@@ -103,6 +114,10 @@ const LoginPage = () => {
               <div className="bg-green-50 rounded-lg p-4 mb-8">
                 <ViewBookings turf={turf}/>
               </div>
+              <div className="bg-green-50 rounded-lg p-4 mb-8">
+                <UpdateTurf turf={turf}/>
+              </div>
+
 
               <button
                 type="button"
@@ -119,7 +134,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 to-white flex items-center justify-center px-4">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center" style={{backgroundImage: "url('/images/bgadmin.png')"}}>
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold text-center text-green-800">

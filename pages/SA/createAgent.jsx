@@ -21,7 +21,6 @@ const CreateAgent = () => {
         name
       );
 
-
       // Create agent document in database
       await databases.createDocument(
         "67b6e6480029852bb87e",
@@ -31,7 +30,6 @@ const CreateAgent = () => {
           userId: userAccount.$id,
           name: name,
           email: email,
-          
         }
       );
 
@@ -48,21 +46,26 @@ const CreateAgent = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center" style={{backgroundImage: "url('/images/bgadmin.png')"}}>
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
+        <div className="space-y-4">
+          <h1 className="text-4xl font-bold text-center text-green-800">
             Create New Agent
-          </h2>
+          </h1>
           {error && (
-            <p className="mt-2 text-center text-sm text-red-600">{error}</p>
+            <p className="text-center text-red-600 bg-red-50 rounded-lg p-3">
+              {error}
+            </p>
           )}
           {success && (
-            <p className="mt-2 text-center text-sm text-green-600">{success}</p>
+            <p className="text-center text-green-600 bg-green-50 rounded-lg p-3">
+              {success}
+            </p>
           )}
         </div>
-        <form className="mt-8 space-y-6" onSubmit={createAgent}>
-          <div className="rounded-md shadow-sm -space-y-px">
+
+        <form className="space-y-6" onSubmit={createAgent}>
+          <div className="space-y-4">
             <div>
               <input
                 type="text"
@@ -70,7 +73,7 @@ const CreateAgent = () => {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Full Name"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full px-4 py-3 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition duration-200"
               />
             </div>
             <div>
@@ -80,7 +83,7 @@ const CreateAgent = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Email address"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full px-4 py-3 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition duration-200"
               />
             </div>
             <div>
@@ -90,19 +93,17 @@ const CreateAgent = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="w-full px-4 py-3 rounded-lg border border-green-200 focus:border-green-500 focus:ring-2 focus:ring-green-200 outline-none transition duration-200"
               />
             </div>
           </div>
 
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Create Agent
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 px-6 text-white bg-green-600 hover:bg-green-700 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+          >
+            Create Agent
+          </button>
         </form>
       </div>
     </div>
