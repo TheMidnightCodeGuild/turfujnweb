@@ -46,10 +46,10 @@ const CreateAgent = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center" style={{backgroundImage: "url('/images/bgadmin.png')"}}>
+    <div className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center" style={{backgroundImage: "url('/images/bg.png')"}}>
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-center text-green-800">
+          <h1 className="text-3xl font-bold text-center text-green-800">
             Create New Agent
           </h1>
           {error && (

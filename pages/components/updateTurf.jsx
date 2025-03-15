@@ -4,22 +4,22 @@ import { databases, ID } from "../../appwrite";
 
 const turfSports = [
   "Football",
-  "Basketball",
-  "Tennis", 
+  "Basketball", 
+  "Tennis",
   "Cricket",
-  "Hockey",
+  "Hockey"
 ];
 
 const amenities = [
   "Bathroom",
-  "Washroom",
-  "UPI-Accepted", 
+  "Washroom", 
+  "UPI-Accepted",
   "Card-Accepted",
   "Changing-Room",
   "Free-Parking",
   "Showers",
   "Cricket-Kit",
-  "Stumps-Provided",
+  "Stumps-Provided"
 ];
 
 const UpdateTurf = ({ turf }) => {
@@ -32,9 +32,9 @@ const UpdateTurf = ({ turf }) => {
   const [area, setArea] = useState(turf?.area || 0);
   const [selectedAmenities, setSelectedAmenities] = useState(turf?.amenities || []);
   const [image, setImage] = useState(turf?.image || '');
-  const [galleryUrl, setGalleryUrl] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [galleryUrl, setGalleryUrl] = useState('');
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   useEffect(() => {
     if (turf) {
@@ -105,9 +105,9 @@ const UpdateTurf = ({ turf }) => {
     }
 
     try {
-      const updatedTurf = await databases.updateDocument(
+      await databases.updateDocument(
         "67b6e6480029852bb87e",
-        "67bee7d1002f3d4812fd", 
+        "67bee7d1002f3d4812fd",
         turf.$id,
         {
           name,
@@ -144,10 +144,14 @@ const UpdateTurf = ({ turf }) => {
               Update Turf Details
             </h2>
             {error && (
-              <p className="mt-2 text-sm text-red-600 bg-red-50 rounded-lg p-3">{error}</p>
+              <p className="mt-2 text-sm text-red-600 bg-red-50 rounded-lg p-3">
+                {error}
+              </p>
             )}
             {success && (
-              <p className="mt-2 text-sm text-green-600 bg-green-50 rounded-lg p-3">{success}</p>
+              <p className="mt-2 text-sm text-green-600 bg-green-50 rounded-lg p-3">
+                {success}
+              </p>
             )}
           </div>
 

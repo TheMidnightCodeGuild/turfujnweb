@@ -14,7 +14,6 @@ const Dashboard = () => {
   const [turf, setTurf] = useState(null);
   const [error, setError] = useState("");
   const [activeModal, setActiveModal] = useState(null);
-  const [activeTab, setActiveTab] = useState('upcoming');
 
   const fetchTurfData = async (agentData) => {
     try {
@@ -86,27 +85,11 @@ const Dashboard = () => {
 
   const showModal = (modalType) => {
     setActiveModal(modalType);
-    if (modalType === 'bookings') {
-      setActiveTab('upcoming');
-    }
   };
 
   const handleCancel = () => {
     setActiveModal(null);
   };
-
-  const items = [
-    {
-      key: 'upcoming',
-      label: 'Upcoming Bookings',
-      children: <ViewBookings turf={turf} filter="upcoming" />
-    },
-    {
-      key: 'previous',
-      label: 'Previous Bookings',
-      children: <ViewBookings turf={turf} filter="previous" />
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-cover bg-center" style={{backgroundImage: "url('/images/bg.png')"}}>
@@ -184,7 +167,7 @@ const Dashboard = () => {
 
           {/* Modals */}
           <Modal
-            title="Bookings"
+     
             open={activeModal === 'bookings'}
             onCancel={handleCancel}
             footer={null}
@@ -192,12 +175,7 @@ const Dashboard = () => {
             style={{ top: '2%' }}
           >
             <div className="bg-green-50 rounded-xl">
-              <Tabs
-                activeKey={activeTab}
-                onChange={setActiveTab}
-                items={items}
-                className="booking-tabs"
-              />
+              <ViewBookings turf={turf} />
             </div>
           </Modal>
 

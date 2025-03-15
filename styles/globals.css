@@ -1,2 +1,7 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Gabarito:wght@400..900&family=Quicksand:wght@300..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 @import "tailwindcss";
 
+* {
+  font-family: "Quicksand", sans-serif;
+}
