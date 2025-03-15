@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { account, databases } from "../../appwrite";
 import { ID } from "appwrite";
+import { useRouter } from "next/navigation";
 
 const CreateAgent = () => {
   const [name, setName] = useState("");
@@ -9,7 +10,6 @@ const CreateAgent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const createAgent = async (e) => {
     e.preventDefault();
@@ -24,7 +24,7 @@ const CreateAgent = () => {
       );
 
       // Create agent document in database
-      await databases.createDocument(
+      const agentDoc = await databases.createDocument(
         "67b6e6480029852bb87e",
         "67bee89d000113343fe9",
         ID.unique(),
@@ -40,6 +40,9 @@ const CreateAgent = () => {
       setEmail("");
       setPassword("");
       setError("");
+      
+      // Redirect to createTurf page with the agent's document ID
+      router.push(`/SA/createTurf?agentId=${agentDoc.$id}`);
     } catch (error) {
       console.error("Error creating agent:", error);
       setError(error.message);
