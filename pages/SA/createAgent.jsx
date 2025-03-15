@@ -10,7 +10,9 @@ const CreateAgent = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const createAgent = async (e) => {
     e.preventDefault();
     setLoading(true);

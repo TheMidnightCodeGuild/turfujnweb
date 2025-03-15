@@ -22,7 +22,7 @@ const amenities = [
   "Stumps-Provided",
 ];
 
-const CreateTurf = ({ agent }) => {
+const CreateTurf = ({ agentId }) => {
   const [name, setName] = useState("");
   const [sports, setSports] = useState([]);
   const [description, setDescription] = useState("");
@@ -70,14 +70,14 @@ const CreateTurf = ({ agent }) => {
           rating: 0,
           amenities: selectedAmenities,
           image,
-          agent: agent.$id,
+          agent: agentId,
           reviews: [],
           gallery: []
         }
       );
 
       // Update agent with turf reference
-      if (agent && agent.$id) {
+      if (agentId && agentId.$id) {
         await databases.updateDocument(
           "67b6e6480029852bb87e", 
           "67bee89d000113343fe9",
