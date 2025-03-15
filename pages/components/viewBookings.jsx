@@ -43,6 +43,7 @@ const ViewBookings = ({ turf }) => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState('upcoming');
 
   useEffect(() => {
     if (!turf) return;
@@ -120,6 +121,21 @@ const ViewBookings = ({ turf }) => {
     }
   };
 
+  // Add function to filter bookings
+  const filterBookings = (bookings) => {
+    const now = new Date();
+    now.setHours(0, 0, 0, 0);
+    
+    return bookings.filter((booking) => {
+      const bookingDate = new Date(booking.date);
+      bookingDate.setHours(0, 0, 0, 0);
+      
+      return activeTab === 'upcoming' 
+        ? bookingDate >= now 
+        : bookingDate < now;
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -150,17 +166,43 @@ const ViewBookings = ({ turf }) => {
         </span>
       </div>
 
+      {/* Add Tabs */}
+      <div className="flex space-x-4 border-b border-gray-200">
+        <button
+          onClick={() => setActiveTab('upcoming')}
+          className={`py-2 px-4 focus:outline-none ${
+            activeTab === 'upcoming'
+              ? 'border-b-2 border-green-500 text-green-600 font-medium'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Upcoming Bookings
+        </button>
+        <button
+          onClick={() => setActiveTab('past')}
+          className={`py-2 px-4 focus:outline-none ${
+            activeTab === 'past'
+              ? 'border-b-2 border-green-500 text-green-600 font-medium'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Past Bookings
+        </button>
+      </div>
+
       {bookings.length === 0 ? (
         <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
           <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
-          <p className="mt-4 text-gray-500 text-lg">No bookings found for this turf</p>
+          <p className="mt-4 text-gray-500 text-lg">
+            No {activeTab} bookings found for this turf
+          </p>
         </div>
       ) : (
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
           <div className="divide-y divide-gray-200">
-            {bookings.map((booking) => (
+            {filterBookings(bookings).map((booking) => (
               <div key={booking.$id} className="p-6 hover:bg-gray-50 transition duration-150">
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
                   <div>

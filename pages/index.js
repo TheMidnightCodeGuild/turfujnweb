@@ -15,6 +15,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   // Add function to fetch turf data with validation
   const fetchTurfData = async (agentData) => {
@@ -48,6 +49,8 @@ const LoginPage = () => {
 
   const login = async (email, password) => {
     try {
+      setIsLoading(true);
+      setError("");
       let user;
       
       try {
@@ -89,6 +92,8 @@ const LoginPage = () => {
     } catch (error) {
       console.error("Login failed:", error);
       setError("Login failed. Please check your credentials.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -138,8 +143,8 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center" style={{backgroundImage: "url('/images/bgadmin.png')"}}>
-      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-cover bg-center" style={{backgroundImage: "url('/images/bg.png')", backdropFilter: "blur(50px)"}}>
+      <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 space-y-6 ">
         <div className="space-y-4">
           <h1 className="text-4xl font-bold text-center text-green-800">
             Hi Turf Owner!
@@ -179,9 +184,17 @@ const LoginPage = () => {
           <button
             type="button"
             onClick={() => login(email, password)}
-            className="w-full py-3 px-6 text-white bg-green-600 hover:bg-green-700 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+            disabled={isLoading}
+            className="w-full py-3 px-6 text-white bg-green-600 hover:bg-green-700 rounded-lg transition duration-200 font-semibold shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 relative"
           >
-            Sign in
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                <span className="ml-2">Signing in...</span>
+              </div>
+            ) : (
+              "Sign in"
+            )}
           </button>
         </form>
       </div>

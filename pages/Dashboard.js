@@ -1,14 +1,11 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { account, databases } from "../appwrite";
 import ViewBookings from "./components/viewBookings";
 import UpdateTurf from "./components/updateTurf";
 import CreateBooking from "./components/CreateBooking";
 import { useRouter } from 'next/router';
 import { Modal, Tabs } from 'antd';
-import dayjs from 'dayjs';
-import weekday from 'dayjs/plugin/weekday';
-dayjs.extend(weekday);
 
 const Dashboard = () => {
   const router = useRouter();
@@ -21,25 +18,27 @@ const Dashboard = () => {
 
   const fetchTurfData = async (agentData) => {
     try {
-      if (agentData.turfs && agentData.turfs.length > 0) {
-        const turfId = agentData.turfs[0].$id;
-        
-        if (typeof turfId !== 'string' || turfId.length > 36 || /^_/.test(turfId)) {
-          console.error("Invalid turf ID format:", turfId);
-          setError("Invalid turf ID format in agent data");
-          return;
-        }
-
-        const turfData = await databases.getDocument(
-          "67b6e6480029852bb87e",
-          "67bee7d1002f3d4812fd",
-          turfId
-        );
-        setTurf(turfData);
-      } else {
+      if (!agentData?.turfs?.length) {
         console.log("No turfs found for agent");
         setTurf(null);
+        return;
       }
+
+      const turfId = agentData.turfs[0].$id;
+      
+      if (typeof turfId !== 'string' || turfId.length > 36 || /^_/.test(turfId)) {
+        console.error("Invalid turf ID format:", turfId);
+        setError("Invalid turf ID format in agent data");
+        return;
+      }
+
+      const turfData = await databases.getDocument(
+        "67b6e6480029852bb87e",
+        "67bee7d1002f3d4812fd",
+        turfId
+      );
+      setTurf(turfData);
+
     } catch (error) {
       console.error("Error fetching turf:", error);
       setError(`Error fetching turf data: ${error.message}`);
@@ -47,14 +46,13 @@ const Dashboard = () => {
     }
   };
 
-  const checkAuth = useCallback(async () => {
+  const checkAuth = async () => {
     try {
       const user = await account.get();
-      if (!user || !user.labels?.includes('admin')) {
+      if (!user?.labels?.includes('admin')) {
         router.push('/');
         return;
       }
-      setLoggedInUser(user);
 
       const agentData = await databases.listDocuments(
         "67b6e6480029852bb87e",
@@ -68,17 +66,18 @@ const Dashboard = () => {
         return;
       }
 
+      setLoggedInUser(user);
       setAgent(userAgent);
       await fetchTurfData(userAgent);
       
     } catch (error) {
       router.push('/');
     }
-  }, [router]);
+  };
 
   useEffect(() => {
     checkAuth();
-  }, [checkAuth]);
+  }, []);
 
   const logout = async () => {
     await account.deleteSession("current");
@@ -110,7 +109,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-green-50">
+    <div className="min-h-screen bg-cover bg-center" style={{backgroundImage: "url('/images/bg.png')"}}>
       <div className="lg:max-w-[1300px] mx-auto px-4 py-12">
         <div className="max-w-[1300px] mx-auto">
           {/* Header Card */}
@@ -189,9 +188,10 @@ const Dashboard = () => {
             open={activeModal === 'bookings'}
             onCancel={handleCancel}
             footer={null}
-            width={800}
+            width={1000}
+            style={{ top: '2%' }}
           >
-            <div className="bg-green-50 rounded-xl p-4">
+            <div className="bg-green-50 rounded-xl">
               <Tabs
                 activeKey={activeTab}
                 onChange={setActiveTab}
@@ -206,9 +206,10 @@ const Dashboard = () => {
             open={activeModal === 'settings'}
             onCancel={handleCancel}
             footer={null}
-            width={800}
+            width={1000}
+            style={{ top: '2%' }}
           >
-            <div className="bg-green-50 rounded-xl p-4">
+            <div className="bg-green-50 rounded-xl">
               <UpdateTurf turf={turf}/>
             </div>
           </Modal>
@@ -218,9 +219,10 @@ const Dashboard = () => {
             open={activeModal === 'createBooking'}
             onCancel={handleCancel}
             footer={null}
-            width={800}
+            width={1000}
+            style={{ top: '2%' }}
           >
-            <div className="bg-green-50 rounded-xl p-4">
+            <div className="bg-green-50 rounded-xl">
               <CreateBooking turfId={turf?.$id} />
             </div>
           </Modal>
