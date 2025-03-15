@@ -167,16 +167,16 @@ const Dashboard = () => {
 
           {/* Modals */}
           <Modal
-     
             open={activeModal === 'bookings'}
             onCancel={handleCancel}
             footer={null}
             width={1000}
             style={{ top: '2%' }}
+            closeIcon={<span className="text-red-500 text-[30px]">&times;</span>}
           >
-            <div className="bg-green-50 rounded-xl">
+          
               <ViewBookings turf={turf} />
-            </div>
+     
           </Modal>
 
           <Modal
@@ -186,6 +186,7 @@ const Dashboard = () => {
             footer={null}
             width={1000}
             style={{ top: '2%' }}
+            closeIcon={<span className="text-red-500">&times;</span>}
           >
             <div className="bg-green-50 rounded-xl">
               <UpdateTurf turf={turf}/>
@@ -199,6 +200,7 @@ const Dashboard = () => {
             footer={null}
             width={1000}
             style={{ top: '2%' }}
+            closeIcon={<span className="text-red-500">&times;</span>}
           >
             <div className="bg-green-50 rounded-xl">
               <CreateBooking turfId={turf?.$id} />
